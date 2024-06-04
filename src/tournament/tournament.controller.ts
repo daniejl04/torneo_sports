@@ -8,8 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { TournamentService } from './tournament.service';
-import { CreateTournamentDto } from './dto/create-tournament.dto';
-import { UpdateTournamentDto } from './dto/update-tournament.dto';
+import { CreateTournamentDto, UpdateTournamentDto, AddPlayersDto } from './dto';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -68,6 +67,16 @@ export class TournamentController {
     @Body() updateTournamentDto: UpdateTournamentDto,
   ) {
     return this.tournamentService.update(id, updateTournamentDto);
+  }
+
+  @ApiOperation({ summary: 'Update players in Tournament by id' })
+  @ApiCreatedResponse({ description: 'Success' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @Patch('up')
+  add(@Body() addPlayers: AddPlayersDto) {
+    return this.tournamentService.addPlayers(addPlayers);
   }
 
   @Delete(':id')

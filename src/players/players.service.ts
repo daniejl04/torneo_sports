@@ -42,7 +42,7 @@ export class PlayersService {
   async findAll() {
     try {
       const players: Player[] = await this.playerRepository.find({
-        relations: ['tournament'],
+        relations: ['tournaments'],
       });
       return {
         mensage: 'founds',
@@ -91,7 +91,6 @@ export class PlayersService {
       player.name = updatePlayer.name;
       player.age = updatePlayer.age;
       player.points = updatePlayer.points;
-      player.tournament = tournament;
 
       await this.playerRepository.save(player);
 

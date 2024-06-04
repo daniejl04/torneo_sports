@@ -5,11 +5,10 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateTournamentDto } from './dto/create-tournament.dto';
-import { UpdateTournamentDto } from './dto/update-tournament.dto';
+import { CreateTournamentDto, UpdateTournamentDto, AddPlayersDto } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tournament } from './entities/tournament.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Player } from 'src/players/entities/player.entity';
 @Injectable()
 export class TournamentService {
@@ -82,25 +81,19 @@ export class TournamentService {
 
   async update(id: number, updateTournament: UpdateTournamentDto) {
     try {
-      const tournament: Tournament = await this.tournamentRepository.findOneBy({
-        id: id,
-      });
+      const iFtournament: Tournament =
+        await this.tournamentRepository.findOneBy({
+          id: id,
+        });
 
-      if (!tournament) {
+      if (!iFtournament) {
         throw new NotFoundException('tournament not found');
       }
 
-      // const player = await this.playerRepository.findOneBy({
-      //   id: updateTournament.,
-      // });
-      // if (!player) {
-      //   throw new NotFoundException('Author not found');
-      // }
-
+      const tournament = new Tournament();
       tournament.name = updateTournament.name;
       tournament.quantityPlayers = updateTournament.quantityPlayers;
-      //tournament.points = updatePlayer.points;
-      // tournament.players = player;
+      tournament.players = updateTournament.players;
 
       await this.tournamentRepository.save(tournament);
 
@@ -131,5 +124,27 @@ export class TournamentService {
     } catch (error) {
       throw new InternalServerErrorException();
     }
+  }
+
+  async addPlayers(addPlayers: AddPlayersDto) {
+    const { tournamentId, playerIds } = addPlayers;
+    const tournament = await this.tournamentRepository.findOne({
+      where: { id: tournamentId },
+      relations: ['players'],
+    });
+
+    if (!tournament) {
+      throw new Error('Tournament not found');
+    }
+
+    const players = await this.playerRepository.find({
+      where: {
+        id: In(playerIds),
+      },
+    });
+
+    tournament.players = [...tournament.players, ...players];
+
+    return this.tournamentRepository.save(tournament);
   }
 }
