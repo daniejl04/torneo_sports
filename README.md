@@ -58,6 +58,27 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
+## Config
+
+create .env file and take the following code as an example
+
+```
+DB_HOST= "you hots"
+DB_PORT=5432
+DB_USERNAME=default "if use postgress"
+DB_PASS= "you password"
+DB_NAME_DB= "name base data"
+```
+
+# init swagger
+
+copy there URL http://localhost:3000/api-doc#/
+
+## find GitHub
+
+https://github.com/daniejl04/torneo_sports.git
+
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
