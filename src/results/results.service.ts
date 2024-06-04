@@ -1,26 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateResultDto } from './dto/create-result.dto';
-import { UpdateResultDto } from './dto/update-result.dto';
+import { Result } from './entities/result.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ResultsService {
-  create(createResultDto: CreateResultDto) {
-    return 'This action adds a new result';
+  constructor(
+    @InjectRepository(Result)
+    private readonly resultRepository: Repository<Result>,
+  ) {}
+  async createResult(createResultDto: CreateResultDto) {
+    const result = this.resultRepository.create(createResultDto);
+    return this.resultRepository.save(result);
   }
 
-  findAll() {
-    return `This action returns all results`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} result`;
-  }
-
-  update(id: number, updateResultDto: UpdateResultDto) {
-    return `This action updates a #${id} result`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} result`;
+  findResultsByTournament(tournamentId: number) {
+    return this.resultRepository.find({
+      where: { tournament: { id: tournamentId } },
+      relations: ['winner', 'loser', 'tournament'],
+    });
   }
 }
