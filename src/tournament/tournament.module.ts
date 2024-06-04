@@ -5,9 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Tournament } from './entities/tournament.entity';
 import { Player } from 'src/players/entities/player.entity';
 import { PersistanceModule } from 'src/persistance/persistance.module';
+import { Result } from 'src/results/entities/result.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tournament, Player]), PersistanceModule],
+  imports: [
+    TypeOrmModule.forFeature([Tournament, Player, Result]),
+    PersistanceModule,
+  ],
   controllers: [TournamentController],
   providers: [TournamentService],
 })

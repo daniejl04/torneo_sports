@@ -79,6 +79,11 @@ export class TournamentController {
     return this.tournamentService.addPlayers(addPlayers);
   }
 
+  @ApiOperation({ summary: 'delete tournament' })
+  @ApiCreatedResponse({ description: 'Success' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.tournamentService.remove(id);

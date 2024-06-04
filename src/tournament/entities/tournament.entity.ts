@@ -1,9 +1,11 @@
 import { Player } from 'src/players/entities/player.entity';
+import { Result } from 'src/results/entities/result.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   //OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -22,4 +24,7 @@ export class Tournament {
   @ManyToMany(() => Player, (player) => player.tournaments)
   @JoinTable()
   players: Player[];
+
+  @OneToMany(() => Result, (result) => result.tournament)
+  results: Result[];
 }
