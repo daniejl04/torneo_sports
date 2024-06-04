@@ -16,5 +16,5 @@ export class Player {
   points: number;
 
   @ManyToOne(() => Tournament, (tournament) => tournament.players)
-  tournament: Tournament;
+  tournament?: Tournament;
 }

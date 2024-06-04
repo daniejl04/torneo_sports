@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { Tournament } from 'src/tournament/entities/tournament.entity';
 
 export class CreatePlayerDto {
@@ -8,10 +8,15 @@ export class CreatePlayerDto {
   name: string;
 
   @ApiProperty()
-  @IsString()
+  @IsNumber()
   age: number;
 
   @ApiProperty()
+  @IsNumber()
   @IsOptional()
-  tournament: Tournament;
+  points: number;
+
+  @ApiProperty()
+  @IsOptional()
+  tournament?: Tournament;
 }
