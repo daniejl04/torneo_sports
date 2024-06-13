@@ -15,7 +15,7 @@ import {
 export class ResultsController {
   constructor(private readonly resultsService: ResultsService) {}
 
-  @ApiOperation({ summary: 'Update players in Tournament by id' })
+  @ApiOperation({ summary: 'createResult' })
   @ApiCreatedResponse({ description: 'Success' })
   @ApiNotFoundResponse({ description: 'Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
@@ -25,8 +25,13 @@ export class ResultsController {
     return this.resultsService.createResult(createResultDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.resultsService.findResultsByTournament(id);
-  }
+  // @ApiOperation({ summary: 'findResult' })
+  // @ApiCreatedResponse({ description: 'Success' })
+  // @ApiNotFoundResponse({ description: 'Not Found' })
+  // @ApiBadRequestResponse({ description: 'Bad Request' })
+  // @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  // @Get(':id')
+  // findOne(@Param('id') id: number) {
+  //   return this.resultsService.findResultsByTournament(id);
+  // }
 }

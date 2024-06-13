@@ -5,7 +5,7 @@ import {
   Body,
   Patch,
   Param,
-  //Delete,
+  Delete,
 } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
@@ -68,8 +68,13 @@ export class PlayersController {
     return this.playersService.update(id, updatePlayerDto);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.playersService.remove(+id);
-  // }
+  @ApiOperation({ summary: 'Delete the Player by id' })
+  @ApiCreatedResponse({ description: 'Success' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.playersService.remove(id);
+  }
 }

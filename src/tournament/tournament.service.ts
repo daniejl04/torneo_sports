@@ -102,7 +102,7 @@ export class TournamentService {
         tournament: tournament,
       };
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('hoal');
     }
   }
 

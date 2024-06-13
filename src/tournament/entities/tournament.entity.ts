@@ -1,11 +1,10 @@
 import { Player } from 'src/players/entities/player.entity';
-import { Result } from 'src/results/entities/result.entity';
+//import { Result } from 'src/results/entities/result.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
   //OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -21,10 +20,10 @@ export class Tournament {
   @Column()
   quantityPlayers: number;
 
-  @ManyToMany(() => Player, (player) => player.tournaments)
+  @ManyToMany(() => Player, (player) => player.tournament)
   @JoinTable()
   players: Player[];
 
-  @OneToMany(() => Result, (result) => result.tournament)
-  results: Result[];
+  // @OneToMany(() => Result, (result) => result.tournament)
+  // results: Result[];
 }

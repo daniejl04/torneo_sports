@@ -35,14 +35,14 @@ export class PlayersService {
         mensage: 'ready!, Player create',
       };
     } catch (error) {
-      throw new InternalServerErrorException('uno');
+      throw new InternalServerErrorException('');
     }
   }
 
   async findAll() {
     try {
       const players: Player[] = await this.playerRepository.find({
-        relations: ['tournaments'],
+        relations: ['tournament'],
       });
       return {
         mensage: 'founds',
@@ -71,23 +71,26 @@ export class PlayersService {
   }
 
   async update(id: string, updatePlayer: UpdatePlayerDto) {
+    const player: Player = await this.playerRepository.findOne({
+      where: { id },
+      relations: ['tournament'],
+    });
+
+    if (!player) {
+      throw new NotFoundException('Player not found');
+    }
+
+    const { tournament } = updatePlayer;
+
+    const tournamentId = tournament[0].id;
+
+    const iFtournament = await this.tournamentRepository.findOneBy({
+      id: tournamentId,
+    });
+    if (!iFtournament) {
+      throw new NotFoundException('tournament not found');
+    }
     try {
-      const player: Player = await this.playerRepository.findOne({
-        where: { id },
-        relations: ['tournament'],
-      });
-
-      if (!player) {
-        throw new NotFoundException('Player not found');
-      }
-
-      const tournament = await this.tournamentRepository.findOneBy({
-        id: updatePlayer.tournament.id,
-      });
-      if (!tournament) {
-        throw new NotFoundException('Author not found');
-      }
-
       player.name = updatePlayer.name;
       player.age = updatePlayer.age;
       player.points = updatePlayer.points;
@@ -103,7 +106,23 @@ export class PlayersService {
     }
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} player`;
-  // }
+  async remove(id: string) {
+    const player: Player = await this.playerRepository.findOneBy({
+      id: id,
+    });
+
+    if (!player) {
+      throw new NotFoundException('Player not found');
+    }
+
+    try {
+      await this.playerRepository.delete(id);
+
+      return {
+        mensage: 'Player deleted successfully',
+      };
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+  }
 }

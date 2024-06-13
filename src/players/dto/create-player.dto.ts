@@ -13,10 +13,9 @@ export class CreatePlayerDto {
 
   @ApiProperty()
   @IsNumber()
-  @IsOptional()
   points: number;
 
   @ApiProperty()
   @IsOptional()
-  tournament?: Tournament;
+  tournament: Tournament[];
 }

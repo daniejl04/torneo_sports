@@ -15,10 +15,10 @@ export class ResultsService {
     return this.resultRepository.save(result);
   }
 
-  findResultsByTournament(tournamentId: number) {
-    return this.resultRepository.find({
-      where: { tournament: { id: tournamentId } },
-      relations: ['winner', 'loser', 'tournament'],
-    });
-  }
+  // findResultsByTournament(tournamentId: number) {
+  //   return this.resultRepository.find({
+  //     where: { tournament: { id: tournamentId } },
+  //     relations: ['winner', 'loser', 'tournament'],
+  //   });
+  // }
 }
